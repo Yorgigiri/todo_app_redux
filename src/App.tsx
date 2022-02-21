@@ -1,14 +1,15 @@
 import React from 'react';
 import './App.css';
-import { Container } from "@mui/material";
-import AddTodoForm from "./components/AddTodoForm";
-import TodoList from "./components/TodoList";
+import {Container} from "@mui/material";
+import AddTodoForm from "./components/Todo/AddTodoForm";
+import TodoList from "./components/Todo/TodoList";
 import {connect} from "react-redux";
+import useNotification from "./hooks/useNotification";
 
 
 interface ITodo {
     id: string;
-    text: string;
+    title: string;
     description: string;
 }
 
@@ -17,17 +18,19 @@ interface IProps {
 }
 
 function App(props: IProps) {
-  return (
-    <Container maxWidth="sm">
-        <AddTodoForm />
-        <TodoList todoList={props.todoList}/>
-    </Container>
-  );
+    const notification = useNotification();
+
+
+    return (
+        <Container maxWidth="sm">
+            {notification}
+            <AddTodoForm/>
+            <TodoList todoList={props.todoList}/>
+        </Container>
+    );
 }
 
 const mapStateToProps = (state: { todoList: ITodo[] }) => {
-
-    console.log('state: ', state);
     return {
         todoList: state.todoList
     };

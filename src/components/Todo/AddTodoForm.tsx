@@ -4,7 +4,7 @@ import {Box, Button, Paper, TextField, Theme} from "@mui/material";
 import {
     makeStyles,
 } from "@mui/styles";
-import addTodoInTodoList from "../store/actionCreators/addTodoInTodoList";
+import addTodoInTodoList from "../../store/actionCreators/addTodoInTodoList";
 import {Dispatch} from "redux";
 import {ClassNameMap} from "@mui/styles/withStyles";
 
@@ -57,7 +57,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 }));
 
 function AddTodoForm(props: TProps) {
-    const [todo, setTodo] = useState<ITodo>({ ...DEFAULT_TODO_PARAMS });
+    const [todo, setTodo] = useState<ITodo>({...DEFAULT_TODO_PARAMS});
     const classes = useStyles(props);
     const isDisabledButton = !(todo.title.length || todo.description.length);
 

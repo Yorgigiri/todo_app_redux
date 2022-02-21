@@ -1,24 +1,29 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Provider } from 'react-redux';
+import {Provider} from 'react-redux';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import store from "./store/store";
 import {ThemeProvider} from "@mui/styles";
+import {SnackbarProvider} from 'notistack';
 
 
 const theme = {
     spacing: 8,
 };
 
-const rootElement = document.getElementById('root')
+const rootElement = document.getElementById('root');
+
+console.log('store.getState().todoList: ', store.getState().todoList)
 
 ReactDOM.render(
     <React.StrictMode>
         <Provider store={store}>
             <ThemeProvider theme={theme}>
-                <App/>
+                <SnackbarProvider maxSnack={6}>
+                    <App/>
+                </SnackbarProvider>
             </ThemeProvider>
         </Provider>
     </React.StrictMode>,

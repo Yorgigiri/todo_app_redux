@@ -19,7 +19,7 @@ export default function todoList(state = initialState, action: any) {
             ];
         case DELETE_TODO_FROM_TODO_LIST:
             return [
-                ...state.filter((todo) => todo.id !== action.payload.id),
+                ...state.filter((todo) => todo.id !== action.payload),
             ];
 
         default:

@@ -1,22 +1,18 @@
 import React from "react";
-import {Button, Paper, styled, Theme, Typography} from "@mui/material";
-import { connect } from "react-redux";
+import {Button, Paper, Theme, Typography} from "@mui/material";
+import {connect} from "react-redux";
 import Delete from '@mui/icons-material/Delete';
 import {Dispatch} from "redux";
-import deleteTodoFromTodoList from "../store/actionCreators/deleteTodoFromTodoList";
+import deleteTodoFromTodoList from "../../store/actionCreators/deleteTodoFromTodoList";
 import {makeStyles} from "@mui/styles";
 import {ClassNameMap} from "@mui/styles/withStyles";
 
 
-interface ITodo {
-    id: string;
+interface IProps {
+    id: string,
     title: string;
     description: string;
-}
-
-interface IProps {
-    todo: ITodo;
-    deleteTodoFromTodoList: (todo: ITodo) => void;
+    deleteTodoFromTodoList: (todoId: string) => void;
 }
 
 type TProps = IProps & ClassNameMap;
@@ -42,35 +38,38 @@ const useStyles = makeStyles((theme: Theme) => ({
 }));
 
 function TodoElement(props: TProps) {
-    const { todo } = props;
+    const {
+        id,
+        title,
+        description,
+        deleteTodoFromTodoList,
+    } = props;
     const classes = useStyles(props);
-
-    console.log('props: ', typeof props.todo );
 
     const renderTodoTitle = () =>
         <Typography
             variant="h4"
             className={classes.text}
         >
-            {todo.title ? todo.title : 'No title'}
+            {title ? title : 'No title'}
         </Typography>;
 
     const renderTodoDescription = () =>
-        todo.description &&
-            <Typography
-                variant="body1"
-                className={classes.text}
-            >
-                {todo.description}
-            </Typography>;
+        description &&
+        <Typography
+            variant="body1"
+            className={classes.text}
+        >
+            {description}
+        </Typography>;
 
     const renderDeleteButton = () =>
         <Button
             color="error"
             variant="contained"
             className={classes.deleteButton}
-            startIcon={<Delete />}
-            onClick={() => props.deleteTodoFromTodoList(todo)}
+            startIcon={<Delete/>}
+            onClick={() => deleteTodoFromTodoList(id)}
         >
             Delete
         </Button>;
@@ -88,7 +87,7 @@ function TodoElement(props: TProps) {
 
 const mapDispatchToProps = (dispatch: Dispatch) => {
     return {
-        deleteTodoFromTodoList: (todo: ITodo) => dispatch(deleteTodoFromTodoList(todo))
+        deleteTodoFromTodoList: (todoId: string) => dispatch(deleteTodoFromTodoList(todoId))
     }
 }
 

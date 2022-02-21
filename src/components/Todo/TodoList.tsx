@@ -4,7 +4,7 @@ import TodoElement from "./TodoElement";
 
 interface ITodo {
     id: string;
-    text: string;
+    title: string;
     description: string;
 }
 
@@ -13,14 +13,13 @@ interface IProps {
 }
 
 function TodoList(props: IProps) {
-    const { todoList } = props;
+    const {todoList} = props;
 
     return (
         <>
-            {todoList.map((item) => (
-                // @ts-ignore
-                <TodoElement key={item.id} todo={item} />
-            ))}
+            {todoList.map(({id, title, description}) =>
+                <TodoElement id={id} title={title} description={description} key={id}/>
+            )}
         </>
     );
 }
