@@ -12,7 +12,7 @@ function useNotification() {
         const todoListWatcher = watch(store.getState, 'todoList');
 
         store.subscribe(
-            todoListWatcher((newVal: Array<any>, oldVal: Array<any>, objectPath) => {
+            todoListWatcher((newVal: Array<any>, oldVal: Array<any>) => {
                 if (newVal.length > oldVal.length) {
                     enqueueSnackbar('todo is added!', {variant: "success"});
                 } else if (newVal.length < oldVal.length) {
