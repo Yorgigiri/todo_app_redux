@@ -15,8 +15,6 @@ const theme = {
 
 const rootElement = document.getElementById('root');
 
-console.log('store.getState().todoList: ', store.getState().todoList)
-
 ReactDOM.render(
     <React.StrictMode>
         <Provider store={store}>

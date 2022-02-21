@@ -20,7 +20,6 @@ interface IProps {
 function App(props: IProps) {
     const notification = useNotification();
 
-
     return (
         <Container maxWidth="sm">
             {notification}
