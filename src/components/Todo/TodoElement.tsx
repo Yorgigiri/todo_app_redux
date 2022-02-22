@@ -1,40 +1,52 @@
 import React from "react";
-import {Button, Paper, Theme, Typography} from "@mui/material";
+import clsx from 'clsx';
+import {Button, Divider, Paper, Theme, Typography} from "@mui/material";
 import {connect} from "react-redux";
 import Delete from '@mui/icons-material/Delete';
+import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import {Dispatch} from "redux";
 import deleteTodoFromTodoList from "../../store/actionCreators/deleteTodoFromTodoList";
+import setAsCompletedTodo from "../../store/actionCreators/setAsCompletedTodo";
 import {makeStyles} from "@mui/styles";
-import {ClassNameMap} from "@mui/styles/withStyles";
+import { green } from '@mui/material/colors';
 
 
 interface IProps {
     id: string,
     title: string;
     description: string;
+    isCompleted: boolean;
+    setAsCompletedTodo: (todoId: string) => void;
     deleteTodoFromTodoList: (todoId: string) => void;
 }
 
-type TProps = IProps & ClassNameMap;
+type TProps = IProps;
 
 const useStyles = makeStyles((theme: Theme) => ({
     paper: {
         display: 'flex',
-        alignItems: 'center',
+        flexDirection: 'column',
         justifyContent: 'space-between',
         padding: theme.spacing,
         marginBottom: '10px',
+        '&--completed': {
+            background: green[50],
+            opacity: 0.7
+        },
     },
     deleteButton: {
-        marginLeft: theme.spacing,
         minWidth: '120px',
-        alignSelf: 'flex-start',
-        flexBasis: '15%',
+        marginLeft: theme.spacing,
     },
     text: {
         flexBasis: '75%',
         wordBreak: 'break-word',
     },
+    buttonsContainer: {
+        paddingTop: theme.spacing,
+        display: 'flex',
+        alignSelf: 'flex-start',
+    }
 }));
 
 function TodoElement(props: TProps) {
@@ -42,9 +54,15 @@ function TodoElement(props: TProps) {
         id,
         title,
         description,
+        isCompleted,
+        setAsCompletedTodo,
         deleteTodoFromTodoList,
     } = props;
     const classes = useStyles(props);
+    const paperClasses = clsx(
+        classes.paper,
+        isCompleted && `${classes.paper}--completed`,
+    );
 
     const renderTodoTitle = () =>
         <Typography
@@ -63,6 +81,16 @@ function TodoElement(props: TProps) {
             {description}
         </Typography>;
 
+    const renderCompleteButton = () =>
+        <Button
+            color="success"
+            variant="contained"
+            startIcon={<ThumbUpIcon/>}
+            onClick={() => setAsCompletedTodo(id)}
+        >
+            Complete
+        </Button>
+
     const renderDeleteButton = () =>
         <Button
             color="error"
@@ -75,19 +103,24 @@ function TodoElement(props: TProps) {
         </Button>;
 
     return (
-        <Paper className={classes.paper}>
+        <Paper className={paperClasses}>
             <div>
                 {renderTodoTitle()}
                 {renderTodoDescription()}
             </div>
-            {renderDeleteButton()}
+            <Divider light/>
+            <div className={classes.buttonsContainer}>
+                {renderCompleteButton()}
+                {renderDeleteButton()}
+            </div>
         </Paper>
     );
 }
 
 const mapDispatchToProps = (dispatch: Dispatch) => {
     return {
-        deleteTodoFromTodoList: (todoId: string) => dispatch(deleteTodoFromTodoList(todoId))
+        deleteTodoFromTodoList: (todoId: string) => dispatch(deleteTodoFromTodoList(todoId)),
+        setAsCompletedTodo: (todoId: string) => dispatch(setAsCompletedTodo(todoId))
     }
 }
 

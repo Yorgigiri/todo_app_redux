@@ -6,25 +6,26 @@ import {
 } from "@mui/styles";
 import addTodoInTodoList from "../../store/actionCreators/addTodoInTodoList";
 import {Dispatch} from "redux";
-import {ClassNameMap} from "@mui/styles/withStyles";
 
 
 interface ITodo {
     id: string;
     title: string;
     description: string;
+    isCompleted: boolean;
 }
 
 interface IProps {
     addTodoInTodoList: (todo: ITodo) => void;
 }
 
-type TProps = IProps & ClassNameMap;
+type TProps = IProps;
 
 const DEFAULT_TODO_PARAMS = {
     id: '',
     title: '',
     description: '',
+    isCompleted: false,
 };
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -60,6 +61,8 @@ function AddTodoForm(props: TProps) {
     const [todo, setTodo] = useState<ITodo>({...DEFAULT_TODO_PARAMS});
     const classes = useStyles(props);
     const isDisabledButton = !(todo.title.length || todo.description.length);
+
+    console.log('todo: ', todo);
 
     return (
         <Paper className={classes.paper}>
