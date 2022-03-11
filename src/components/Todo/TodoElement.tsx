@@ -1,12 +1,11 @@
 import React from "react";
 import clsx from 'clsx';
-import {Button, Divider, Paper, Theme, Typography} from "@mui/material";
+import {Button, Checkbox, Divider, FormControlLabel, Paper, Theme, Typography} from "@mui/material";
 import {connect} from "react-redux";
 import Delete from '@mui/icons-material/Delete';
-import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import {Dispatch} from "redux";
 import deleteTodoFromTodoList from "../../store/actionCreators/deleteTodoFromTodoList";
-import setAsCompletedTodo from "../../store/actionCreators/setAsCompletedTodo";
+import toggleTodoStatus from "../../store/actionCreators/toggleTodoStatus";
 import {makeStyles} from "@mui/styles";
 import { green } from '@mui/material/colors';
 
@@ -16,7 +15,7 @@ interface IProps {
     title: string;
     description: string;
     isCompleted: boolean;
-    setAsCompletedTodo: (todoId: string) => void;
+    toggleTodoStatus: (todoId: string) => void;
     deleteTodoFromTodoList: (todoId: string) => void;
 }
 
@@ -31,7 +30,6 @@ const useStyles = makeStyles((theme: Theme) => ({
         marginBottom: '10px',
         '&--completed': {
             background: green[50],
-            opacity: 0.7
         },
     },
     deleteButton: {
@@ -45,7 +43,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     buttonsContainer: {
         paddingTop: theme.spacing,
         display: 'flex',
-        alignSelf: 'flex-start',
+        justifyContent: 'space-between',
     }
 }));
 
@@ -55,7 +53,7 @@ function TodoElement(props: TProps) {
         title,
         description,
         isCompleted,
-        setAsCompletedTodo,
+        toggleTodoStatus,
         deleteTodoFromTodoList,
     } = props;
     const classes = useStyles(props);
@@ -81,15 +79,12 @@ function TodoElement(props: TProps) {
             {description}
         </Typography>;
 
-    const renderCompleteButton = () =>
-        <Button
-            color="success"
-            variant="contained"
-            startIcon={<ThumbUpIcon/>}
-            onClick={() => setAsCompletedTodo(id)}
-        >
-            Complete
-        </Button>
+    const renderCompleteCheckbox = () =>
+        <FormControlLabel
+            label={isCompleted ? 'Completed' : 'Not completed'}
+            control={<Checkbox onChange={() => toggleTodoStatus(id)} />}
+        />
+
 
     const renderDeleteButton = () =>
         <Button
@@ -110,7 +105,7 @@ function TodoElement(props: TProps) {
             </div>
             <Divider light/>
             <div className={classes.buttonsContainer}>
-                {renderCompleteButton()}
+                {renderCompleteCheckbox()}
                 {renderDeleteButton()}
             </div>
         </Paper>
@@ -120,7 +115,7 @@ function TodoElement(props: TProps) {
 const mapDispatchToProps = (dispatch: Dispatch) => {
     return {
         deleteTodoFromTodoList: (todoId: string) => dispatch(deleteTodoFromTodoList(todoId)),
-        setAsCompletedTodo: (todoId: string) => dispatch(setAsCompletedTodo(todoId))
+        toggleTodoStatus: (todoId: string) => dispatch(toggleTodoStatus(todoId))
     }
 }
 

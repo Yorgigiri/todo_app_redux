@@ -19,7 +19,11 @@ ReactDOM.render(
     <React.StrictMode>
         <Provider store={store}>
             <ThemeProvider theme={theme}>
-                <SnackbarProvider maxSnack={6}>
+                <SnackbarProvider
+                    autoHideDuration={1600}
+                    dense={true}
+                    maxSnack={3}
+                >
                     <App/>
                 </SnackbarProvider>
             </ThemeProvider>

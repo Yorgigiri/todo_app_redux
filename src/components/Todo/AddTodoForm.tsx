@@ -62,7 +62,11 @@ function AddTodoForm(props: TProps) {
     const classes = useStyles(props);
     const isDisabledButton = !(todo.title.length || todo.description.length);
 
-    console.log('todo: ', todo);
+    const handleAddTodo = () => {
+        props.addTodoInTodoList({...todo, id: new Date().toISOString()})
+
+        setTodo({ ...DEFAULT_TODO_PARAMS })
+    }
 
     return (
         <Paper className={classes.paper}>
@@ -72,12 +76,14 @@ function AddTodoForm(props: TProps) {
                     <TextField
                         label="Todo title"
                         variant="outlined"
+                        value={todo.title}
                         className={classes.input}
                         onChange={(event) => setTodo({...todo, title: event.target.value})}
                     />
                     <TextField
                         label="Todo description"
                         className={classes.input}
+                        value={todo.description}
                         multiline
                         onChange={(event) => setTodo({...todo, description: event.target.value})}
                     />
@@ -86,7 +92,7 @@ function AddTodoForm(props: TProps) {
                     variant="contained"
                     className={classes.formButton}
                     disabled={isDisabledButton}
-                    onClick={() => props.addTodoInTodoList({...todo, id: new Date().toISOString()})}
+                    onClick={handleAddTodo}
                 >
                     Add
                 </Button>

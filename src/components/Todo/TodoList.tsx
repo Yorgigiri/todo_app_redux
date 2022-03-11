@@ -18,20 +18,15 @@ function TodoList(props: IProps) {
 
     return (
         <>
-            {todoList.map(({id, title, description, isCompleted}) => {
-                console.log('isCompleted: ', isCompleted);
-
-
-                return (
-                    <TodoElement
-                        key={id}
-                        id={id}
-                        title={title}
-                        description={description}
-                        isCompleted={isCompleted}
-                    />
-                );
-            })}
+            {todoList.map(({id, title, description, isCompleted}) =>
+                <TodoElement
+                    key={id}
+                    id={id}
+                    title={title}
+                    description={description}
+                    isCompleted={isCompleted}
+                />
+            )}
         </>
     );
 }

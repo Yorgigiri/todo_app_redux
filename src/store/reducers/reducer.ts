@@ -1,6 +1,6 @@
 import DELETE_TODO_FROM_TODO_LIST from "../actions/deleteTodoFromTodoList";
 import ADD_TODO_IN_TODO_LIST from "../actions/addTodoInTodoList";
-import SET_AS_COMPLETED_TODO from "../actions/setAsCompletedTodo";
+import TOGGLE_TODO_STATUS from "../actions/toggleTodoStatus";
 
 
 interface ITodo {
@@ -23,11 +23,11 @@ export default function todoList(state = initialState, action: any) {
             return [
                 ...state.filter((todo) => todo.id !== action.payload),
             ];
-        case SET_AS_COMPLETED_TODO:
+        case TOGGLE_TODO_STATUS:
             return [
                 ...state.map((todo) => {
                     if (todo.id === action.payload) {
-                        todo.isCompleted = true;
+                        todo.isCompleted = !todo.isCompleted;
                     }
 
                     return todo;
